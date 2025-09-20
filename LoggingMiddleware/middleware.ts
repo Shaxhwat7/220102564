@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { Stack, Level, Package, LogEntry } from './LogEntry';
-
+import { Level, LogEntry, Package, Stack } from './LogEntry';
+import { AUTH_CONFIG } from './config';
 export class Logger {
     private static instance: Logger;
     private readonly API_URL = 'http://20.244.56.144/evaluation-service/logs';
@@ -40,7 +40,13 @@ export class Logger {
                 message
             };
 
-            const response = await axios.post(this.API_URL, logEntry);
+            const response = await axios.post(this.API_URL, logEntry, {
+                headers: {
+                    'Authorization': `${AUTH_CONFIG.token_type} ${AUTH_CONFIG.access_token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+
             if (response.status !== 200) {
                 throw new Error(`Logging API returned status ${response.status}`);
             }

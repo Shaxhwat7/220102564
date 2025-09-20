@@ -106,5 +106,6 @@ app.get("/shorturls/:shortcode", (req, res) => {
 
 const PORT = 3000
 app.listen(PORT, () => {
-    logger.info("backend", "middleware", `Server running on http://localhost:${PORT}`)
-})
+    logger.info("backend", "middleware", "Server started successfully")
+        .catch(err => console.error("Failed to log startup:", err));
+});
